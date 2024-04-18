@@ -1,0 +1,44 @@
+#!/bin/bash
+
+#For User Management
+#Created user accounts for employees
+sudo useradd -m Michael_Smith Dwight_Jones Jim_Brown Phyllis_Williams Andy_Anderson Stanley_Jackson Pam_Johnson Kevin_Wilson Oscar_Garcia Angela_Martin Meredith_Clark Creed_Thomas Kelly_Young Toby_King
+
+#For Group Creation
+#Defined groups for different departments
+sudo groupadd managers accounting_team sales_team support_team hr_team
+
+#For Group Assignments
+#Assigned users to their respective groups
+sudo usermod -aG managers Michael_Smith
+sudo usermod -aG sales_team Dwight_Jones Jim_Brown Phyllis_Williams Andy_Anderson Stanley_Jackson
+sudo usermod -aG accounting_team Kevin_Wilson Oscar_Garcia Angela_Martin
+sudo usermod -aG support_team Pam_Johnson Meredith_Clark Creed_Thomas
+sudo usermod -aG hr_team Kelly_Young Toby_King
+
+#For Directory Structure Setup
+#Created directories for departmental access
+sudo mkdir /var/company_directories
+sudo chgrp -R managers /var/company_directories
+sudo chmod -R 770 /var/company_directories
+
+#Granted access to specific users
+sudo chown -R Michael_Smith:Toby_King /var/company_directories
+
+#For Web Server Installation (Apache)
+#Installed Apache web server and set up a basic webpage
+sudo apt-get update
+sudo apt-get install apache2 -y
+sudo systemctl start apache2
+sudo systemctl enable apache2
+echo "<html><body><h1>Hello world</h1>
+<p>This is my first project called "Hello world"</p>
+</body></html>" | sudo tee /var/www/html/index.html
+
+#For FTP Server Installation
+#Installed and configured FTP server (vsftpd)
+sudo apt-get install vsftpd -y
+sudo systemctl start vsftpd
+sudo systemctl enable vsftpd
+
+echo "Script execution completed."
